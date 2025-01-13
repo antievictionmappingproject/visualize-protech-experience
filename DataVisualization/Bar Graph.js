@@ -1,144 +1,59 @@
-barGraph = {
-  // Extract column names for bar chart keys
-  const columns = Object.keys(dataset[0]).filter(col => col !== "Technology");
+dd3.csv('../DataCleaning/technology_pairs_filtered.csv').then(dataset => {
+  console.log("Dataset loaded:", dataset); // Confirm data is loaded
 
-  // Define chart dimensions
   const width = 800;
   const height = 400;
   const margin = { top: 30, right: 20, bottom: 100, left: 50 };
 
   // Scales
   const xScale = d3.scaleBand()
-    .domain(columns)
-    .range([margin.left, width - margin.right])
-    .padding(0.3);
+      .domain(dataset.map(d => d.Technology))
+      .range([margin.left, width - margin.right])
+      .padding(0.3);
 
   const yScale = d3.scaleLinear()
-    .range([height - margin.bottom, margin.top]);
+      .domain([0, d3.max(dataset, d => +d.Value1)]) // Replace `Value1` with your actual column name
+      .range([height - margin.bottom, margin.top]);
+
+  console.log("Scales created:", xScale.domain(), yScale.domain()); // Debug scales
 
   // Create SVG container
-  const svg = d3.create("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .style("font-family", "sans-serif");
+  const svg = d3.select("#bar-chart-container")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+  console.log("SVG element:", svg.node());
+
+  console.log("SVG created"); // Confirm SVG creation
 
   // Add x-axis
-  const xAxis = svg.append("g")
-    .attr("transform", `translate(0, ${height - margin.bottom})`);
+  svg.append("g")
+      .attr("transform", `translate(0, ${height - margin.bottom})`)
+      .call(d3.axisBottom(xScale))
+      .selectAll("text")
+      .attr("transform", "rotate(-45)")
+      .style("text-anchor", "end");
+
+  console.log("X-axis added"); // Confirm X-axis rendering
 
   // Add y-axis
-  const yAxis = svg.append("g")
-    .attr("transform", `translate(${margin.left}, 0)`);
+  svg.append("g")
+      .attr("transform", `translate(${margin.left}, 0)`)
+      .call(d3.axisLeft(yScale));
 
-  // Add bars group
-  const barsGroup = svg.append("g")
-    .attr("fill", "steelblue");
+  console.log("Y-axis added"); // Confirm Y-axis rendering
 
-  // Create tooltip
-  const tooltip = d3.select("body").append("div")
-    .style("position", "absolute")
-    .style("background-color", "white")
-    .style("border", "1px solid #ccc")
-    .style("border-radius", "4px")
-    .style("padding", "5px")
-    .style("font-size", "12px")
-    .style("pointer-events", "none")
-    .style("opacity", 0); // Initially hidden
+  // Add bars
+  const bars = svg.selectAll("rect")
+      .data(dataset)
+      .enter()
+      .append("rect")
+      .attr("x", d => xScale(d.Technology))
+      .attr("y", d => yScale(+d.Value1)) // Replace `Value1` with your actual column name
+      .attr("width", xScale.bandwidth())
+      .attr("height", d => yScale(0) - yScale(+d.Value1)) // Height calculation
+      .attr("fill", "steelblue");
 
-
-  // Update function to render the chart based on selected technology
-  function updateChart(technologyName) {
-    // Find data for the selected technology
-    const selectedData = dataset.find(d => d.Technology === technologyName);
-
-    // Map data to keys and values
-    const data = columns
-  .filter(key => key !== technologyName) // Exclude selected technology
-  .map(key => ({
-    key,
-    value: selectedData[key]
-  }));
-
-
-    // Sort data by value in descending order
-    data.sort((a, b) => b.value - a.value);
-
-    // Update xScale domain based on sorted keys
-    xScale.domain(data.map(d => d.key));
-
-    const maxValue = d3.max(data, d => d.value); // Only consider visible bar values
-    yScale.domain([0, maxValue*1.05]);
-
-    // Update axes
-    xAxis.transition().duration(750).call(d3.axisBottom(xScale))
-        .selectAll("text") // Select x-axis labels
-        .attr("transform", "rotate(-45)") // Rotate the labels
-        .style("text-anchor", "end"); // Align labels to the end
-    
-    yAxis.transition().duration(750).call(d3.axisLeft(yScale));
-
-
-    // Bind data to bars
-    const bars = barsGroup.selectAll("rect")
-      .data(data, d => d.key);
-
-    // Enter + Update
-    bars.enter().append("rect")
-        .attr("x", d => xScale(d.key))
-        .attr("y", yScale(0)) // Start at the bottom
-        .attr("height", 0) // No height initially
-        .attr("width", xScale.bandwidth())
-        .on("mouseover", function (event, d) {
-          tooltip.transition().duration(200).style("opacity", 1);
-          tooltip.html(`Value: ${d.value}`)
-            .style("left", `${event.pageX + 10}px`)
-            .style("top", `${event.pageY - 28}px`);
-        })
-        .on("mousemove", function (event) {
-          tooltip.style("left", `${event.pageX + 10}px`)
-            .style("top", `${event.pageY - 28}px`);
-        })
-        .on("mouseout", function () {
-          tooltip.transition().duration(200).style("opacity", 0);
-        })
-      .merge(bars)
-        .transition().duration(750) // Apply transition
-        .attr("x", d => xScale(d.key))
-        .attr("y", d => yScale(d.value))
-        .attr("height", d => yScale(0) - yScale(d.value))
-        .attr("width", xScale.bandwidth());
-
-    // Exit
-    bars.exit()
-      .transition().duration(750)
-      .attr("y", yScale(0))
-      .attr("height", 0)
-      .remove();
-  }
-
-  // Create the dropdown using Observable Inputs
-  const dropdown = Inputs.select(
-    dataset.map(d => d.Technology),
-    { label: "Select Technology", value: dataset[0].Technology }
-  );
-
-  // Attach event listener to dropdown
-  dropdown.addEventListener("input", () => {
-    updateChart(dropdown.value);
-  });
-
-  // Initialize the chart with the first technology
-  updateChart(dataset[0].Technology);
-
-  // Return a container with both the dropdown and the chart
-  const container = d3.create("div")
-    .style("display", "flex")
-    .style("flex-direction", "column")
-    .node();
-
-  // Append dropdown and SVG to the container
-  container.appendChild(dropdown);
-  container.appendChild(svg.node());
-
-  return container;
-}
+  console.log("Bars added:", bars); // Confirm bars are added
+});
