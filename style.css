@@ -1,5 +1,24 @@
-body{
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
-    background: pink;
-    text: align: center;
-}
+    padding: 0;
+  }
+  
+  header {
+    text-align: center;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #f4f4f4;
+  }  
