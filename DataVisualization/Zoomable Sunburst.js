@@ -1,3 +1,5 @@
+data = FileAttachment("outputTechToCompWithPreferenceLimit3Exclude@2.json").json()
+
 sunBurst = {  
   // Specify the chart’s dimensions.
   const width = 1000;

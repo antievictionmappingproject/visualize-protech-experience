@@ -1,5 +1,8 @@
-dd3.csv('../DataCleaning/technology_pairs_filtered.csv').then(dataset => {
-  console.log("Dataset loaded:", dataset); // Confirm data is loaded
+dataset = FileAttachment("technology_pairs_filtered@1.csv").csv()
+
+barGraph = {
+  // Extract column names for bar chart keys
+  const columns = Object.keys(dataset[0]).filter(col => col !== "Technology");
 
   const width = 800;
   const height = 400;

@@ -1,3 +1,5 @@
+pie_data = FileAttachment("filtered_technology_impact_covid_response.csv").csv()
+
 pieChartWithLegend = {
   const width = 400;
   const height = 400;
