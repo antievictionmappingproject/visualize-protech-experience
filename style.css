@@ -1,24 +1,165 @@
+/* Navigation Bar Styling */
+header {
+  background-color: #000; /* Black background */
+  color: #fff; /* White text */
+  padding: 10px 20px;
+  position: sticky; /* Sticks to the top when scrolling */
+  top: 0;
+  z-index: 1000; /* Ensures it stays above other elements */
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo a {
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+}
+
+.navbar-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar-links li {
+  display: inline;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  padding: 8px 12px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-links a:hover {
+  background-color: #555; /* Lighten the background on hover */
+  color: #fff;
+  border-radius: 5px;
+}
+
+
+/* Global Styling */
+body, html {
+  margin: 0;
+  padding: 0 50px;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  background-color: #fefefe;
+  color: #333;
+}
+
+/* Blank Margins on the Left and Right */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+  padding: 0 20px; /* Adds blank space on the left and right */
+}
+
+/* Introduction Section */
+.intro {
+  text-align: center;
+  padding: 40px 20px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  border-bottom: 2px solid #ddd;
+}
+
+.intro h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+.intro p {
+  font-size: 1.2em;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Left Section: Instructions */
+.left-section {
+  flex: 0.4; /* Take 40% of the available space */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-right: 2px solid #ddd;
+}
+
+.left-section h2 {
+  font-size: 1.8em;
+  margin-bottom: 15px;
+}
+
+.left-section p {
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+/* Visualization Section: Add spacing between sections */
+.visualization-section {
+  display: flex;
+  flex-direction: row;
+  gap: 20px; /* Space between the left and right sections */
+  margin: 60px 0; /* Vertical spacing between sections */
+}
+
+.right-section {
+  flex: 0.6; /* Larger width than the left section */
+  display: flex;
+  justify-content: center; /* Horizontally center content */
+  align-items: center; /* Vertically center content */
+  padding: 20px;
+}
+
+.right-section div {
+  width: 100%; /* Full width of the container */
+  height: auto; /* Automatically adjust height */
+  max-height: 80vh; /* Optional: Limit the height to avoid overly large visualizations */
+  display: flex; /* Center visualization */
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
+  overflow: hidden; /* Prevent overflow */
+}
+
+/* Specific heights */
+#observablehq-sunBurst-7f21e497 {
+  width: 100%;
+  height: 90vh; /* Set height to 80% of the viewport height */
+  max-height: 1000px; /* Optional: Limit the maximum height */
+  overflow: hidden; /* Prevent content overflow */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+@media (max-width: 768px) {
+  .visualization-section {
+      flex-direction: column; /* Stack sections vertically */
   }
-  
-  header {
-    text-align: center;
-    background-color: #f4f4f4;
-    padding: 20px;
+
+  .left-section {
+      flex: none;
+      width: 100%; /* Full width for the left section */
+      border-right: none;
+      border-bottom: 2px solid #ddd; /* Add a bottom border for separation */
   }
-  
-  main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+
+  .right-section {
+      flex: none;
+      width: 100%; /* Full width for the right section */
+      padding: 10px 0;
   }
-  
-  footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #f4f4f4;
-  }  
+
+  .right-section div {
+      height: auto; /* Let the height adjust dynamically */
+  }
+}

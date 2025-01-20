@@ -1,24 +1,87 @@
 <html lang="en">
+
+<header>
+  <nav class="navbar">
+      <div class="navbar-logo">
+          <a href="#">My Visualizations</a>
+      </div>
+      <ul class="navbar-links">
+          <li><a href="#intro">Visualizating PropTech Experience</a></li>
+          <li><a href="#sunburst">Sunburst</a></li>
+          <li><a href="#bargraph">Bar Graph</a></li>
+          <li><a href="#piechart">Pie Chart</a></li>
+      </ul>
+  </nav>
+</header>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=[device-width], initial-scale=1.0">
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval';"> -->
+
     <title>Visualizing Protech Experience</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- <script src="https://d3js.org/d3.v7.min.js"></script> -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@5/dist/inspector.css">
+
+    <style>
+      html {
+          scroll-behavior: smooth;
+      }
+    </style>
+  
 </head>
 <body>
+    <!-- Introduction Section -->
+    <section class="intro" id="intro">
+        <h1>Welcome to the Data Visualizations Page</h1>
+        <p>
+            Explore a series of interactive visualizations that provide insights into key datasets. Use the instructions provided to navigate and interact with each visualization effectively.
+        </p>
+    </section>
 
-    <h1>Sunburst With JS Runtime</h1>
-    <div id="observablehq-sunBurst-7f21e497"></div>
-    <p>Credit: <a href="https://observablehq.com/@anti-eviction-mapping-project/visualizing-protech-experience">Anti-Evication Lab: Visualizing Protech Experience by Anti-Eviction Mapping Project</a></p>
+    <!-- Visualization 1 -->
+    <section class="visualization-section" id="sunburst">
+        <div class="left-section">
+            <h2>Sunburst Visualization</h2>
+            <p>
+                This sunburst visualization helps you explore hierarchical data. Hover over segments to see details or click to drill down into specific categories.
+            </p>
+        </div>
+        <div class="right-section">
+            <div id="observablehq-sunBurst-7f21e497"></div>
+        </div>
+    </section>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@5/dist/inspector.css">
-    <script type="module">
-    import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
-    import define from "https://api.observablehq.com/@anti-eviction-mapping-project/visualizing-protech-experience.js?v=4";
-    new Runtime().module(define, name => {
-      if (name === "sunBurst") return new Inspector(document.querySelector("#observablehq-sunBurst-7f21e497"));
-    });
-    </script>
+    <!-- Visualization 2 -->
+    <section class="visualization-section" id="bargraph">
+        <div class="left-section">
+            <h2>Visualization 2</h2>
+            <p>
+                Add a description and interaction instructions for your second visualization here.
+            </p>
+        </div>
+        <div class="right-section">
+          <div id="observablehq-barGraph-132e8ab4"></div>
+        </div>
+    </section>
 
+    <!-- Visualization 3 -->
+    <section class="visualization-section" id="piechart">
+        <div class="left-section">
+            <h2>Visualization 3</h2>
+            <p>
+                Add a description and interaction instructions for your third visualization here.
+            </p>
+        </div>
+        <div class="right-section">
+            <div id="observablehq-pieChartWithLegend-ce81ef20"></div>
+        </div>
+    </section>
+
+    <script type="module" src="sunburstScript.js"></script>
+    <script type="module" src="barGraphScript.js"></script>
+    <script type="module" src="pieChartWithLegendScript.js"></script>
 </body>
 </html>
